@@ -1,0 +1,45 @@
+{
+  "name": "override-rules",
+  "private": true,
+  "version": "2.1.1",
+  "description": "Override rules YAML generator",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "typecheck": "tsgo --noEmit",
+    "build": "npm run typecheck && tsx build.ts",
+    "generate": "tsx yaml_generator/generator.ts",
+    "artifacts": "npm run build && npm run generate",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky",
+    "preversion": "npm run lint && npm run typecheck",
+    "version": "conventional-changelog -p angular -t src-v -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "postversion": "git push --follow-tags"
+  },
+  "dependencies": {
+    "yaml": "^2.8.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.6.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260503.1",
+    "conventional-changelog-cli": "^5.0.0",
+    "esbuild": "^0.28.0",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1",
+    "tsx": "^4.20.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.1"
+  },
+  "lint-staged": {
+    "*.{ts,js,json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

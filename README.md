@@ -1,74 +1,123 @@
-## powerfullz 的覆写规则仓库
+## powerfullz 的 Mihomo/Substore 覆写规则
 
-此处存放我用于 Mihomo 内核的覆写规则，以 [mihomo-party-org/override-hub](https://github.com/mihomo-party-org/override-hub) 内的 ACL4SSR 规则为灵感，几乎完全重新编写，具有以下优点：
+[![](https://data.jsdelivr.com/v1/package/gh/powerfullz/override-rules/badge?style=rounded)](https://www.jsdelivr.com/package/gh/powerfullz/override-rules)
 
-- 集成 [SukkaW/Surge](https://github.com/SukkaW/Surge) 和 [Cats-Team/AdRules](https://github.com/Cats-Team/AdRules) 规则集，优化广告拦截、隐私保护及流量分流精度
-- 新增 Truth Social、E-Hentai、TikTok、加密货币等实用分流规则
-- 移除冗余规则集
-- 引入 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat) 完整版 GeoSite/GeoIP 数据库
-- 针对 IP 规则添加 `no-resolve` 参数，避免本地 DNS 解析，提升上网速度，无 DNS 泄露
-- JS 格式覆写现已实现节点国家动态识别与分组，自动为实际存在的各国家/地区节点生成对应代理组，节点变动时分组自动变化，省心省力。例如：你的订阅没有韩国的节点，则最终生成的配置中「韩国节点」这个代理组就不会出现。
+本仓库为 Mihomo/Substore 设计，提供高效、灵活的覆写规则（**不建议用于 Stash**）。核心特色如下：
 
-谨此声明：本覆写规则为本人自用，现特此公开分享于公共平台。在未有回馈意见的情况下，自然优先满足个人需求及修正自己发现的问题。如有高见，欢迎 PR。
+* 集成 [SukkaW/Surge](https://github.com/SukkaW/Surge) 与 [217heidai/adblockfilters](https://github.com/217heidai/adblockfilters) 等优质规则，兼容性强，覆盖面广。
+* 针对 Truth Social、E-Hentai、TikTok、加密货币等场景，新增专用分流规则，满足多样化需求。
+* 精简冗余，结构清晰，维护便捷。
+* 深度融合 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat) GeoSite/GeoIP，分流更精准。
+* IP 规则默认添加 `no-resolve`，有效减少本地 DNS 解析，提升速度与隐私。
+* 动态覆写：自动识别节点国家/地区，仅生成实际存在的分组，节点名称实时枚举，配置更智能。
+
+> 本项目为本人自用，欢迎交流建议（Issue/PR）。如无特殊反馈，将优先满足个人需求与体验优化。
+
+[点击访问 Forgejo 上的镜像](https://git.l3zc.com/powerfullz/override-rules)
+
+### AFF
+
+#### FlowerCloud
+
+[注册链接](https://api-flowercloud.com/aff.php?aff=4352)
+
+目前我的主力机场，也是一家老牌一线机场了，线路扎实，冗余足够，实验性节点0.2倍率，部分地区的高级节点是家宽落地，用起来还是很舒服的。
+
+#### 星岛梦
+
+[注册链接](https://luics.xdmvipaff.cc/#/?code=MMB4xSlc)
+
+星岛梦是一家 2025 年 12 月刚开业的机场，机场主在测试的时候就来找我了，我因此有幸从早期测试阶段便开始关注，见证了机场主熬夜修线路换落地的过程，目前体验还不错。算上日常折扣性价比还可以，大家可以月付体验一下。
 
 ### 使用方法
 
-**Mihomo Party**
+**Clash Party/Sparkle**
 
-1. 复制对应文件 raw 链接，例如： `https://raw.githubusercontent.com/powerfullz/override-rules/refs/heads/main/override.yaml`。
-2. 打开 Mihomo Party，左侧导航栏打开「覆写」页面，粘贴链接后导入，即可看到对应的覆写脚本/配置。
-3. 左侧导航栏打开「订阅管理」，点击需要覆写的订阅右上角的三个点，选择「编辑信息」。
-4. 在打开的对话框中最后一项「覆写」，选择刚刚导入的覆写脚本/配置，保存即可。
+> [!TIP]
+> Clash Party 不支持给脚本传入参数，如果需要传入参数，请使用集成的 Substore。
 
-需要注意，Mihomo Party 在默认设置下还会接管 DNS 和 SNI（域名嗅探），需要手动在设置中关闭「控制 DNS 设置」和「控制域名嗅探」两个选项。
+1.  推荐直接使用 JS 动态覆写：`https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js`
+2.  打开 Clash Party → 左侧「覆写」→ 粘贴上述链接导入。
+3.  打开「订阅管理」→ 目标订阅右上角三个点 → 「编辑信息」→ 选择该覆写脚本 → 保存。
+
+需要注意，Clash Party 在默认设置下还会接管 DNS 和 SNI（域名嗅探），需要手动在设置中关闭「控制 DNS 设置」和「控制域名嗅探」两个选项。
+
+**Clash Verge 系（Clash Verge Rev、Clash Nyanpasu 等）**
+
+直接复制需要的 YAML 格式覆写粘贴到覆写规则部分（无法自动更新）。
 
 **SubStore**
 
 参考[最速 Substore 订阅管理指南](https://blog.l3zc.com/2025/03/clash-subscription-convert/)。
 
-2025/06/17更新：新增 JavaScript 格式覆写，支持传入参数，更易于维护，推荐使用。例如，有链式代理需求，使用如下覆写脚本链接即可：
-
-```
-https://raw.githubusercontent.com/powerfullz/override-rules/refs/heads/main/convert.js#landing=true
-```
-
-传入多个参数时，用`&`分隔，例如`landing=true&loadbalance=true`。
+2025/06/17 更新：新增 JavaScript 格式覆写，更易于维护，已经成为首选方式。JavaScript 格式覆写支持在脚本链接末尾加入`#`以传入参数，传入多个参数时，用`&`分隔，例如`#landing=true&loadbalance=true`。
 
 目前支持的参数：
 
-- `loadbalance`: 启用负载均衡 (默认false)
-- `landing`: 启用落地节点功能 (默认false)
-- `ipv6`: 启用 IPv6 支持 (默认false)
-- `full`：生成完整配置（默认false，用于纯内核启动）
+*   `loadbalance`：启用负载均衡（url-test/load-balance，默认 false）
+*   `landing`：启用落地节点功能（如机场家宽/星链/落地分组，默认 false）[^landing]
+*   `ipv6`：启用 IPv6 支持（默认 false）
+*   `full`：生成完整配置（适合纯内核启动，默认 false）
+*   `keepalive`：启用 TCP Keep Alive（默认 false）[^fn2]
+*   `fakeip`：DNS 增强模式使用 `fake-ip` 而不是 `redir-host`（开启后可能有助于解决 TUN 模式无法上网的问题，默认 true）
+*   `quic`：允许 QUIC 流量（UDP 443，默认 false）[^quic]
+*   `regex`：各国家/地区代理组改用 `include-all` + 正则过滤模式，由 Mihomo 内核在运行时按正则动态筛选节点，而非在脚本执行时枚举节点名称（默认 false）[^regex]
+*   `threshold`：国家/地区节点数量小于该值时不显示分组（默认 0）
 
-**Clash Verge 系**
+[^landing]: 注意在默认的枚举模式下，如果没有符合条件的落地节点（e.g 名称中带有「家宽」、「商宽」、「落地」等关键词的节点），内核会无法启动。
+[^quic]: 默认屏蔽了 QUIC 流量防止节点 UDP 性能不佳影响上网体验，如果确信节点质量良好，建议设置为 true。
+[^regex]: 默认情况下覆写脚本会直接把节点都筛选好，如果想让内核来筛（比如，你在 Clash Party 客户端里额外添加了自建节点，想直接通过正则表达式筛选进入配置文件）那就打开吧。
 
-直接复制粘贴到覆写规则（无法自动更新）。
+说明：支持字符串 true/false 或 1/0。注：预生成的 YAML 格式覆写（`yamls/` 目录）固定使用正则模式，不受此参数影响。
+
+[^fn2]: 无特殊需求不要启用，否则会造成[移动设备异常耗电问题](https://github.com/vernesong/OpenClash/issues/2614)。
+
+#### JS 覆写使用示例
+
+无特殊需求，直接在 Substore 「脚本操作」处填入脚本链接：
+
+```
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js
+```
+
+有链式代理和多个节点提供商之间负载均衡的需求，使用`landing=true&loadbalance=true`两个参数：
+
+```
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#landing=true&loadbalance=true
+```
+
+如果想第一时间体验最新加入的 ~~Bug~~ 功能，可以使用 preview 分支的 Github Raw 链接：
+
+```
+https://raw.githubusercontent.com/powerfullz/override-rules/refs/heads/preview/convert.min.js
+```
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明
 
 这覆写规则大量引用了 Loyalsoldier/v2ray-rules-dat，大多数 Mihomo 客户端都会覆写 GeoIP/GeoSite 数据库资源链接，为了获得更好的分流体验，建议手动修改客户端内的覆写设置。以 Mihomo Party 为例，点击侧栏中的「外部资源」，分别将资源链接替换为以下值：
 
-| 项目           | 链接                                                                           |
-| -------------- | ------------------------------------------------------------------------------ |
-| GeoIP 数据库   | `https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat`   |
+| 项目 | 链接 |
+| :--- | :--- |
+| GeoIP 数据库 | `https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat` |
 | GeoSite 数据库 | `https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat` |
-| MMDB 数据库    | `https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb`          |
-| ASN 数据库     | `https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb`     |
+| MMDB 数据库 | `https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb` |
+| ASN 数据库 | `https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb` |
 
 ### 关于部分特殊代理组的说明
 
-**静态资源**：这代理组包含所有常见静态资源 CDN 域名、对象存储域名。如果你的机场提供按低倍率结算流量消耗的节点，可使用这个代理组将这部分流量分流到这些节点。
+**静态资源**：包含所有常见静态资源 CDN 域名、对象存储域名。大部分网站的静态资源（如图片、视频、音频、字体、JS、CSS）都有独立域名、不设置风控措施、不设置鉴权，这些静态资源可以使用 IP 不一定干净（例如 IDC 类 IP）、但是带宽更大、延时更低、而且有和大部分主流 CDN（如 Cloudflare、Akamai、Fastly、EdgeCast）在 IXP 有互联的网络出口。一般就实践经验来看，在正常上网中这部分域名产生的流量占据约 70% 左右。如果你在使用商业性质的远端策略服务提供商、且该服务上提供了低倍率节点，你可以将这部分域名分流至低倍率节点以节省流量。[^fn1]
 
-**搜狗输入**：这代理组默认放行，作用是避免搜狗输入法将你输入的每一个字符自动收集并通过`get.sogou.com/q`等域名回传。隐私担忧者可以将其设置为`REJECT`，开启后会影响搜狗输入法账号同步、词库更新、问题反馈，但语音输入等其他功能可以正常使用。
+[^fn1]: 来源：[我有特别的 Surge 配置和使用技巧](https://blog.skk.moe/post/i-have-my-unique-surge-setup/)
 
-**Play 商店修复**：这代理组用于修复国行设备因使用`services.googleapis.cn`域名导致的 Google Play 下载应用时的「等待中…」问题，如果使用默认的「全球直连」问题依旧，则将其切换到「节点选择」即可。使用「全球直连」代理组时，Play 商店会从国内的 CDN 下载内容。详见：[「Google Play 商店的国内 CDN：从密码学入门到分流策略优化」](https://blog.l3zc.com/2025/03/chinese-cdn-used-by-playstore/)。
+**搜狗输入**：默认放行，作用是避免搜狗输入法将你输入的每一个字符自动收集并通过`get.sogou.com/q`等域名回传。隐私担忧者可以将其设置为`REJECT`，开启后会影响搜狗输入法账号同步、词库更新、问题反馈，但语音输入等其他功能可以正常使用。
 
-**Steam 修复**： 这代理组用于让 Steam 客户端调用国内 CDN 及 P2P 网络下载，节省大量流量。如果需要代理 Steam 所有的下载请求，将其设置为「节点选择」即可。
+~~**Play 商店修复**：~~ 修复国行设备因使用`services.googleapis.cn`域名导致的 Google Play 下载应用时的「等待中…」问题。详见：[「Google Play 商店的国内 CDN：从密码学入门到分流策略优化」](https://blog.l3zc.com/2025/03/chinese-cdn-used-by-playstore/)，已经是默认行为。
+
+~~**Steam 修复**：~~ 用于让 Steam 客户端调用国内 CDN 及 P2P 网络下载，节省大量流量，已经是默认行为。
 
 ### 关于链式代理的说明
 
-若有链式代理需求，可以使用`override_with_landing.yaml`和`override_loadbalance_landing.yaml`。这两个配置文件新增了「落地资源」和「前置代理」两个代理组，其中「落地资源」代理组会自动匹配名称包含「家宽」、「商宽」和「落地」的节点，并且其他诸如「香港节点」的代理组会自动剔除落地节点。需要被链式代理的落地节点配置需要将`dialer-proxy`字段设置为「前置代理」，以下是一个例子：
+若有链式代理需求，直接在 JS 链接后加 `landing=true` 参数即可（例如：`convert.min.js#landing=true`）。这样会新增「落地节点」和「前置代理」两个代理组，其中「落地节点」会自动匹配名称包含「家宽」「家庭」「商宽」「落地」「Starlink/星链」等关键词的节点，其他诸如「香港节点」等国家/地区分组会自动剔除这些落地节点。需要被链式代理的落地节点请在你的订阅里为该节点配置 `dialer-proxy: "前置代理"`，示例：
 
 ```yaml
 proxies:
@@ -80,3 +129,53 @@ proxies:
     password: goodpassword
     dialer-proxy: "前置代理"
 ```
+
+### 关于自动生成的 YAML 格式覆写
+
+除了直接引用动态构建的 JS 覆写脚本外，你也可以使用预先生成好的静态 YAML 覆写文件。这适用于某些不支持执行 JS 的客户端（例如旧版的 Clash Verge）。
+
+> [!NOTE]
+> 为了保持代码仓库的纯净，`main` 主分支不再跟踪和提交生成的产物文件（如 `convert.js` 和 `yamls/`）。
+> 这些构建产物目前统一由 Github Actions 的 Release 工作流在发布 `v*` 版本时，构建并自动推送到当前分支及 Release 中；工作流会自动根据 Tag（例如 `v2.1.0`）同步 `package.json` / `package-lock.json` 的版本号，无需手动改版本。
+
+获取 YAML 覆写文件的链接格式如下：
+
+- **最新正式版**：`/yamls/*.yaml` (默认主分支或不带分支名)
+- **特定历史版本**：`@vX.Y.Z/yamls/*.yaml`
+
+文件命名规则依据支持的开关参数穷举，格式如下：
+
+```text
+config_lb-{0|1}_landing-{0|1}_ipv6-{0|1}_full-{0|1}_keepalive-{0|1}_fakeip-{0|1}_quic-{0|1}.yaml
+```
+
+**获取示例（开启 full，其余关闭）：**
+```text
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules/yamls/config_lb-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0.yaml
+```
+
+**固定版本获取示例：**
+```text
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules@v0.1.0/yamls/config_lb-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0.yaml
+```
+
+如果使用镜像：
+```text
+https://git.l3zc.com/powerfullz/override-rules/raw/branch/dist/yamls/config_lb-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0.yaml
+```
+
+*注：CI 仅套用了一份虚拟的 `fake_proxies.json` 来模拟生成 YAML，因此它无法像 JS 动态脚本那样根据你的实际节点智能生成专属分组策略，只能保守地包含常用的国家/地区。为了最高效的分流体验，仍强烈推荐使用 JS 覆写。*
+
+### 如何自定义与贡献
+
+**如果你想基于本项目深度定制自己专属的覆写规则：**
+
+请阅读 [如何自定义专属覆写规则](docs/HOW_TO_CUSTOMISE.md)。里面详细介绍了如何修改默认参数、调整代理组及增添自定义的 Rule Providers。
+
+**如果你想为本项目贡献代码或新增特性：**
+
+请阅读 [贡献指南](docs/HOW_TO_CONTRIBUTE.md)。里面包含关于代码规范、开发流与提交 PR 的要求。
+
+**如果你是 AI AGENT：**
+
+请阅读 [`./AGENTS.md`](./AGENTS.md)。
